@@ -5,6 +5,7 @@ import base64
 import pdftotext
 import io, re
 import datetime
+from operator import itemgetter
 
 filenames = glob.glob("eml/*.eml")
 
@@ -27,5 +28,7 @@ for pdf in pdfs:
     day, month, year = m.group(2).split("/")
     data.append([float(m.group(1)), datetime.date(int(year), int(month), int(day))])
 
+data = sorted(data, key=itemgetter(1))
+print("Date,INR")
 for d in data:
-    print(d)
+    print(d[1].isoformat() + "," + str(d[0]))
